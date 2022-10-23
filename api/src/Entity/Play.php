@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\PlayRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,7 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 
 #[ORM\Entity(repositoryClass: PlayRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    description: "A single play of a game between players.  Aka: Match, Round… (reserved words)"
+)]
 class Play
 {
     #[ORM\Id]
@@ -23,6 +26,7 @@ class Play
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ApiProperty(description: "A json pickle of the whole game state.")]
     private ?string $json = null;
 
     #[ORM\ManyToMany(targetEntity: Player::class, inversedBy: 'plays')]
