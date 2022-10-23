@@ -25,17 +25,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
-     * @var string The hashed password
+     * @var ?string The hashed password
      */
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\ManyToMany(targetEntity: Scoreboard::class, mappedBy: 'users')]
-    private Collection $scoreboards;
+    #[ORM\OneToOne(mappedBy: 'authUser', cascade: ['persist', 'remove'])]
+    private ?Player $player = null;
 
     public function __construct()
     {
-        $this->scoreboards = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -108,29 +108,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    /**
-     * @return Collection<int, Scoreboard>
-     */
-    public function getScoreboards(): Collection
+    public function getPlayer(): ?Player
     {
-        return $this->scoreboards;
+        return $this->player;
     }
 
-    public function addScoreboard(Scoreboard $scoreboard): self
+    public function setPlayer(Player $player): self
     {
-        if (!$this->scoreboards->contains($scoreboard)) {
-            $this->scoreboards->add($scoreboard);
-            $scoreboard->addUser($this);
+        // set the owning side of the relation if necessary
+        if ($player->getAuthUser() !== $this) {
+            $player->setAuthUser($this);
         }
 
-        return $this;
-    }
-
-    public function removeScoreboard(Scoreboard $scoreboard): self
-    {
-        if ($this->scoreboards->removeElement($scoreboard)) {
-            $scoreboard->removeUser($this);
-        }
+        $this->player = $player;
 
         return $this;
     }

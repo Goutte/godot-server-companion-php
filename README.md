@@ -1,3 +1,29 @@
+# A companion server for Godot games
+
+- made for [aego](https://antoine.goutenoir.com/games/aego) (remove `api/src/aego`)
+- auto-generated gdscript client
+- handles
+    - [ ] auth (JWT)
+    - [ ] players
+    - [ ] scores
+    - [ ] matches
+
+
+## Run dev
+
+    docker compose up
+
+> Note it's _not_ `docker-compose`.  Needs recent docker.
+
+
+## Run prod
+
+Need to tweak the docker-compose file to import env from a file before we deploy.
+
+
+-----
+
+
 <h1 align="center"><a href="https://api-platform.com"><img src="https://api-platform.com/logo-250x250.png" alt="API Platform"></a></h1>
 
 API Platform is a next-generation web framework designed to easily create API-first projects without compromising extensibility
