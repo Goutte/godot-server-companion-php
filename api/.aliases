@@ -1,0 +1,1 @@
+alias dphp="docker exec -it godot-server-companion-php-php-1"
