@@ -8,6 +8,11 @@
     - [ ] scores
     - [ ] matches
 
+## Setup
+
+    php bin/console lexik:jwt:generate-keypair
+    setfacl -R -m u:www-data:rX -m u:"$(whoami)":rwX config/jwt
+    setfacl -dR -m u:www-data:rX -m u:"$(whoami)":rwX config/jwt
 
 ## Run dev
 

@@ -1,5 +1,22 @@
+# https://api-platform.com/docs/core/configuration/
 api_platform:
-    title: Hello API Platform
+    title: "Godot Game Companion"
+    description: |
+        Basic goodies we need when making games.
+        
+        ### Create an account
+        You will need a user account to interact with this server.
+        Head to **Registration** → `POST /users` below.
+        Click _Try it out_, set your desired credentials, and execute the query.
+        Scroll down to see the response.
+        
+        ### Authenticate
+        Use your credentials in the **Login** → `POST /authentication_token`,
+        and the API will return a _Json Web Token_ valid for one day.
+        Copy the token (not the whole response, and without quotes) in the field behind the `Authorize 🔒` button,
+        prefixed by the word `Bearer `.
+        It should look like this: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ…`
+        
     version: 1.0.0
     # Mercure integration, remove if unwanted
     mercure: ~
@@ -8,3 +25,35 @@ api_platform:
         stateless: true
         cache_headers:
             vary: ['Content-Type', 'Authorization', 'Origin']
+    
+    enable_profiler: true
+
+    swagger:
+        # The active versions of OpenAPI to be exported or used in the swagger_ui. The first value is the default.
+        versions:
+            - 3
+            # It's somewhat safe to remove support for v2 now
+            #- 2
+        api_keys:
+            # Helps deny random spambots trying to POST to /user
+            # FIXME: implement
+            noSpam:
+                name: GodotGame
+                type: header
+            # Usual auth
+            JWT:
+                name: Authorization
+                type: header
+
+    # Available formats.  The order matters.
+    # Since the generator uses the first format in the response's content in the OAS, we want json first.
+    # The html format needs to be there for the doc sandbox to appear.
+    formats:
+        json: [ 'application/json' ]
+        jsonld: [ 'application/ld+json' ]
+        html: [ 'text/html' ]
+#        jsonhal:  ['application/hal+json']
+#        jsonapi:  ['application/vnd.api+json']
+#        xml:      ['application/xml', 'text/xml']
+#        yaml:     ['application/x-yaml']
+#        csv:      ['text/csv']
