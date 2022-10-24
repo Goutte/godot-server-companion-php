@@ -13,9 +13,10 @@ api_platform:
         ### Authenticate
         Use your credentials in the **Login** → `POST /authentication_token`,
         and the API will return a _Json Web Token_ valid for one day.
-        Copy the token (not the whole response, and without quotes) in the field behind the `Authorize 🔒` button,
-        prefixed by the word `Bearer `.
-        It should look like this: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ…`
+        Copy the token (not the whole response, and without quotes) in the field behind the `Authorize 🔒` button.
+        
+        ### What's that about `GodotGame` header _(noSpam)_ ?
+        Put the lowercase name of Godot's mascot.   Hint: `g***tte` 
         
     version: 1.0.0
     # Mercure integration, remove if unwanted
