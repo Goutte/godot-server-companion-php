@@ -11,9 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 
 #[ORM\Entity(repositoryClass: ScoreboardRepository::class)]
-#[ApiResource(
-    description: "Aka: Leaderboard"
-)]
+//#[ApiResource(
+//    description: "Aka: Leaderboard"
+//)]
 class Scoreboard
 {
     #[ORM\Id]

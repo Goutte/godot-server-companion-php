@@ -28,7 +28,25 @@ api_platform:
             vary: ['Content-Type', 'Authorization', 'Origin']
     
     enable_profiler: true
+    
+    show_webby: false
 
+    openapi:
+        contact:
+            # The identifying name of the contact person/organization.
+            name: Goutte
+            # The URL pointing to the contact information. MUST be in the format of a URL.
+            url: https://github.com/Goutte
+            # The email address of the contact person/organization. MUST be in the format of an email address.
+            email: antoine@goutenoir.com
+        # A URL to the Terms of Service for the API. MUST be in the format of a URL.
+        #termsOfService:       null
+        license:
+            # The license name used for the API.
+            name: WTFPL
+            # URL to the license used for the API. MUST be in the format of a URL.
+            url: http://www.wtfpl.net/
+    
     swagger:
         # The active versions of OpenAPI to be exported or used in the swagger_ui. The first value is the default.
         versions:
@@ -37,7 +55,6 @@ api_platform:
             #- 2
         api_keys:
             # Helps deny random spambots trying to POST to /user
-            # FIXME: implement
             noSpam:
                 name: GodotGame
                 type: header

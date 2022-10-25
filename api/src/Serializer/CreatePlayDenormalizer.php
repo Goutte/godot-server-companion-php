@@ -4,8 +4,6 @@ namespace App\Serializer;
 
 use App\Awareness\TokenStorageInterfaceAwareTrait;
 use App\Entity\Play;
-use App\Entity\Player;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;

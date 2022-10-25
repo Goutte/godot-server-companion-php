@@ -48,13 +48,13 @@ final class JwtDecorator implements OpenApiFactoryInterface
         ]);
 
         $pathItem = new Model\PathItem(
-            ref: 'JWT Token',
+//            ref: 'JWT Token', // unsupported by openapi generator (for now)
             post: new Model\Operation(
             operationId: 'postCredentialsItem',
             tags: ['Token'],
             responses: [
             '200' => [
-                'description' => 'Get JWT token',
+                'description' => 'Get a JWT (authentication token)',
                 'content' => [
                     'application/json' => [
                         'schema' => [
@@ -64,9 +64,9 @@ final class JwtDecorator implements OpenApiFactoryInterface
                 ],
             ],
         ],
-            summary: 'Get JWT token to login.',
+            summary: 'Retrieves a token (JWT) to login.',
             requestBody: new Model\RequestBody(
-            description: 'Generate new JWT Token',
+            description: 'Generates and returns a new Json Web Token (JWT) from provided credentials.',
             content: new \ArrayObject([
             'application/json' => [
                 'schema' => [

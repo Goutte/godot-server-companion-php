@@ -16,7 +16,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: PlayRepository::class)]
@@ -44,13 +43,24 @@ class Play
     #[ApiProperty(writable: false)]
     private DateTimeImmutable $createdAt;
 
+    // Note: reserved word json not allowed (in openapi generator)
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[ApiProperty(description: "A json pickle of the whole game state.")]
-    private ?string $json = null;
+    private ?string $jsonPickle = null;
 
     #[ORM\ManyToMany(targetEntity: Player::class, inversedBy: 'plays')]
+    #[ApiProperty(
+        description: "Participants of that play.  The order matters.",
+        writable: false,
+    )]
     private Collection $players;
 
+    /**
+     * Only true if current player is amongst participants.
+     * Cheap Voter ? (that's why it's snake cased)
+     * @param Player $user
+     * @return bool
+     */
     public function is_granted_write(Player $user): bool
     {
         return in_array($user, (array) $this->getPlayers());
@@ -73,14 +83,14 @@ class Play
         return $this->createdAt;
     }
 
-    public function getJson(): ?string
+    public function getJsonPickle(): ?string
     {
-        return $this->json;
+        return $this->jsonPickle;
     }
 
-    public function setJson(?string $json): self
+    public function setJsonPickle(?string $jsonPickle): self
     {
-        $this->json = $json;
+        $this->jsonPickle = $jsonPickle;
 
         return $this;
     }
