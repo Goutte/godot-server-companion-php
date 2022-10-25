@@ -4,6 +4,12 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\PlayRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,6 +23,12 @@ use Symfony\Component\Uid\Uuid;
 #[ApiResource(
     description: "A single play of a game between players.  Aka: Match, Round… (reserved words)"
 )]
+#[GetCollection]
+#[Post]
+#[Get]
+//#[Put(security: "is_granted('ROLE_ADMIN') or object.is_granted_write(user)")]
+#[Patch(security: "is_granted('ROLE_ADMIN') or object.is_granted_write(user)")]
+#[Delete(security: "is_granted('ROLE_ADMIN') or object.is_granted_write(user)")]
 class Play
 {
 
@@ -28,11 +40,6 @@ class Play
     #[ApiProperty(writable: false)]
     private Uuid $id;
 
-//    #[ORM\Id]
-//    #[ORM\GeneratedValue]
-//    #[ORM\Column]
-//    private ?int $id = null;
-
     #[ORM\Column]
     #[ApiProperty(writable: false)]
     private DateTimeImmutable $createdAt;
@@ -43,6 +50,11 @@ class Play
 
     #[ORM\ManyToMany(targetEntity: Player::class, inversedBy: 'plays')]
     private Collection $players;
+
+    public function is_granted_write(Player $user): bool
+    {
+        return in_array($user, (array) $this->getPlayers());
+    }
 
     public function __construct()
     {
@@ -59,13 +71,6 @@ class Play
     public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
     }
 
     public function getJson(): ?string
@@ -103,4 +108,5 @@ class Play
 
         return $this;
     }
+
 }

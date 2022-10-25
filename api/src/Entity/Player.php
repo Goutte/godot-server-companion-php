@@ -4,10 +4,17 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\PlayerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
@@ -17,13 +24,14 @@ use Symfony\Component\Uid\Uuid;
 #[ApiResource(
     description: "A beautiful player (like you)"
 )]
+#[GetCollection]
+#[Post]
+#[Get]
+#[Put(security: "is_granted('ROLE_ADMIN') or object == user")]
+#[Delete(security: "is_granted('ROLE_ADMIN') or object == user")]
+#[Patch(security: "is_granted('ROLE_ADMIN') or object == user")]
 class Player implements UserInterface, PasswordAuthenticatedUserInterface
 {
-//    #[ORM\Id]
-//    #[ORM\GeneratedValue]
-//    #[ORM\Column]
-//    private ?int $id = null;
-
     /**
      * @var Uuid A Universally unique identifier for this player.
      */
@@ -40,14 +48,14 @@ class Player implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string An immutable username, used for login.
      */
     #[ORM\Column(unique: true)]
-    #[ApiProperty]
+    #[ApiProperty()]
     private string $username;
 
     /**
      * @var ?string The hashed password
      */
     #[ORM\Column]
-    #[ApiProperty()]
+    #[ApiProperty(readable: false)]
     private ?string $password = null;
 
     /**
@@ -74,24 +82,12 @@ class Player implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-//    public function getUuid(): ?Uuid
-//    {
-//        return $this->uuid;
-//    }
-
-//    public function setUuid(Uuid $uuid): self
-//    {
-//        $this->uuid = $uuid;
-//
-//        return $this;
-//    }
-
     /**
      * A visual identifier that represents this user.
      *
      * @see UserInterface
      */
-    public function getUserIdentifier(): string
+    #[Pure] public function getUserIdentifier(): string
     {
         return $this->getUsername();
     }

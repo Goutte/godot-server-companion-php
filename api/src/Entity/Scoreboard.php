@@ -19,6 +19,7 @@ class Scoreboard
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    // FIXME: UUID
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
