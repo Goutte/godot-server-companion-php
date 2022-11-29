@@ -15,10 +15,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
+#[UniqueEntity('username')]
 #[ORM\Entity(repositoryClass: PlayerRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ApiResource(
@@ -61,7 +63,7 @@ class Player implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var ?string A display (playa) name, for humans.  May change.
      */
-    #[ORM\Column(length: 16)]
+    #[ORM\Column(length: 16, nullable: true)]
     private ?string $displayName = null;
 
     #[ORM\OneToMany(mappedBy: 'player', targetEntity: Score::class, orphanRemoval: true)]
