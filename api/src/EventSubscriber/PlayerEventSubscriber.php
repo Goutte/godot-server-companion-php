@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use ApiPlatform\Exception\InvalidArgumentException;
 use ApiPlatform\Symfony\EventListener\EventPriorities;
 use App\Entity\Player;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -38,8 +39,17 @@ class PlayerEventSubscriber implements EventSubscriberInterface
             Request::METHOD_PATCH,
         ]);
 
-        if ($user instanceof Player && $user->getPassword() && $isWriting) {
-            $user->setPassword($this->passwordHasher->hashPassword($user, $user->getPassword()));
+        if ($user instanceof Player && $isWriting) {
+
+            if ($event->getRequest()->getMethod() == Request::METHOD_POST) {
+                if (empty($user->getPassword())) {
+                    throw new InvalidArgumentException("password missing");
+                }
+            }
+
+            if ($user->getPassword()) {
+                $user->setPassword($this->passwordHasher->hashPassword($user, $user->getPassword()));
+            }
         }
     }
 

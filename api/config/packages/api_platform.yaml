@@ -13,10 +13,10 @@ api_platform:
         ### Authenticate
         Use your credentials in the **Login** → `POST /authentication_token`,
         and the API will return a _Json Web Token_ valid for one day.
-        Copy the token (not the whole response, and without quotes) in the field behind the `Authorize 🔒` button.
+        Copy the token (not the whole response, and without quotes) in the `JWT` field behind the `Authorize 🔒` button.
         
         ### What's that about `GodotGame` header _(noSpam)_ ?
-        Put the lowercase name of Godot's mascot.   Hint: `g***tte` 
+        Put the lowercase name of Godot's mascot.   Hint: `g**ette` 
         
     version: 1.0.0
     # Mercure integration, remove if unwanted
@@ -75,3 +75,13 @@ api_platform:
 #        xml:      ['application/xml', 'text/xml']
 #        yaml:     ['application/x-yaml']
 #        csv:      ['text/csv']
+    
+    exception_to_status:
+        # The 4 following handlers are registered by default, keep those lines to prevent unexpected side effects
+        Symfony\Component\Serializer\Exception\ExceptionInterface: 400 # Use a raw status code (recommended)
+        ApiPlatform\Exception\InvalidArgumentException: !php/const Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST
+        ApiPlatform\Exception\FilterValidationException: 400
+        Doctrine\ORM\OptimisticLockException: 409
+
+        # Validation exception
+        ApiPlatform\Validator\Exception\ValidationException: !php/const Symfony\Component\HttpFoundation\Response::HTTP_UNPROCESSABLE_ENTITY
