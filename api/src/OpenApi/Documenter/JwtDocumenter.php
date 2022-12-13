@@ -8,7 +8,7 @@ use App\OpenApi\DocumenterInterface;
 
 final class JwtDocumenter implements DocumenterInterface
 {
-    public function document(OpenApi $openApi, array $context)
+    public function document(OpenApi $openApi, array $context): OpenApi
     {
         $schemas = $openApi->getComponents()->getSchemas();
 
@@ -75,5 +75,6 @@ final class JwtDocumenter implements DocumenterInterface
         );
         $openApi->getPaths()->addPath('/authentication_token', $pathItem);
 
+        return $openApi;
     }
 }

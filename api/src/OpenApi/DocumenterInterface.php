@@ -15,5 +15,5 @@ use ApiPlatform\OpenApi\OpenApi;
  */
 interface DocumenterInterface
 {
-    public function document(OpenApi $openApi, array $context);
+    public function document(OpenApi $openApi, array $context) : OpenApi;
 }

@@ -22,9 +22,11 @@ final class ExtendedOpenApiFactory implements OpenApiFactoryInterface
     {
         $openApi = ($this->decorated)($context);
 
+        // todo: sort the documenters
+
         foreach ($this->documenters as $documenter) {
             /** @var $documenter DocumenterInterface */
-            $documenter->document($openApi, $context);
+            $openApi = $documenter->document($openApi, $context);
         }
 
         return $openApi;
