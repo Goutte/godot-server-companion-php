@@ -41,7 +41,7 @@ security:
         - { path: ^/_next, roles: PUBLIC_ACCESS }
         - { path: ^/__nextjs, roles: PUBLIC_ACCESS }
         - { path: ^/authentication_token, roles: PUBLIC_ACCESS }
-        - { path: ^/players, methods: [POST], roles: PUBLIC_ACCESS }
+        - { path: ^/players$, methods: [POST], roles: PUBLIC_ACCESS }
         - { path: ^/scoreboards$, methods: [GET], roles: PUBLIC_ACCESS }
         - { path: ^/announcements$, methods: [GET], roles: PUBLIC_ACCESS }
         - { path: ^/scoreboards, roles: IS_ADMIN }
