@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Controller\Action\GetMeAction;
 use App\Repository\PlayerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -29,6 +30,16 @@ use Symfony\Component\Uid\Uuid;
 #[GetCollection]
 #[Post]
 #[Get]
+#[Get(
+    uriTemplate: '/me',
+    controller: GetMeAction::class,
+    openapiContext: [
+        'summary' => 'Get currently authenticated player',
+        'description' => 'Get the currently authenticated player, or `null`.',
+    ],
+    read: false,
+    name: 'get_me',
+)]
 #[Put(security: "is_granted('ROLE_ADMIN') or object == user")]
 #[Delete(security: "is_granted('ROLE_ADMIN') or object == user")]
 #[Patch(security: "is_granted('ROLE_ADMIN') or object == user")]
