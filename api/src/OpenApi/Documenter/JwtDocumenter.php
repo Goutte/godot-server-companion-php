@@ -1,20 +1,15 @@
 <?php
 
-namespace App\OpenApi;
+namespace App\OpenApi\Documenter;
 
-use ApiPlatform\OpenApi\Factory\OpenApiFactoryInterface;
 use ApiPlatform\OpenApi\OpenApi;
 use ApiPlatform\OpenApi\Model;
+use App\OpenApi\DocumenterInterface;
 
-final class JwtDecorator implements OpenApiFactoryInterface
+final class JwtDocumenter implements DocumenterInterface
 {
-    public function __construct(private OpenApiFactoryInterface $decorated)
+    public function document(OpenApi $openApi, array $context)
     {
-    }
-
-    public function __invoke(array $context = []): OpenApi
-    {
-        $openApi = ($this->decorated)($context);
         $schemas = $openApi->getComponents()->getSchemas();
 
         $schemas['Token'] = new \ArrayObject([
@@ -80,6 +75,5 @@ final class JwtDecorator implements OpenApiFactoryInterface
         );
         $openApi->getPaths()->addPath('/authentication_token', $pathItem);
 
-        return $openApi;
     }
 }
